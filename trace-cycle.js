@@ -44,18 +44,17 @@ async function traceCyclePath(relationMatrix, srcRow, srcCol, visited, dfsVisite
         if (visited[childrenRid][childrenCid] === false) {
             let response = await traceCyclePath(relationMatrix, childrenRid, childrenCid, visited, dfsVisited);
             if (response === true) {
-                cell.style.backgroundColor = "transparent";
+                cell.style.backgroundColor = "#ecf0f1";
                 await colorPromise();
                 return Promise.resolve(true);
             }
-        } else if (dfsVisited[childrenRid][childrenCid]) {
+        } else if (dfsVisited[childrenRid][childrenCid] === true && visited[childrenRid][childrenCid] === true) {
             let cyclicCell = document.querySelector(`.cell[rid="${childrenRid}"][cid="${childrenCid}"]`);
             cyclicCell.style.backgroundColor = "lightsalmon";
             await colorPromise();
-            cyclicCell.style.backgroundColor="transparent";
-            cell.style.backgroundColor = "transparent";
+            cyclicCell.style.backgroundColor="#ecf0f1";
             await colorPromise();
-
+            cell.style.backgroundColor = "#ecf0f1";
             return Promise.resolve(true);
         }
     }
